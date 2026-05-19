@@ -22,7 +22,7 @@
     "websiteURL": "https://apify.com",
     "privacyPolicyURL": "https://apify.com/privacy-policy",
     "termsOfServiceURL": "https://apify.com/terms-of-use",
-    "composerIcon": "./assets/icon.svg",
+    "composerIcon": "./assets/logo.svg",
     "logo": "./assets/logo.svg"
   }
 }
