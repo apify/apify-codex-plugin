@@ -1,7 +1,7 @@
 {
   "name": "apify",
   "version": "0.1.0",
-  "description": "Apify plugin for web scraping, automation, and Actor development. Includes skills for using existing Actors, building custom ones, and integrating Apify into applications.",
+  "description": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify.",
   "author": {
     "name": "Apify",
     "url": "https://apify.com"
@@ -14,8 +14,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Apify",
-    "shortDescription": "Web scraping, automation, and Actor development",
-    "longDescription": "Apify plugin providing skills and MCP integration for web scraping, browser automation, and data extraction using Apify Actors.",
+    "shortDescription": "Apify platform plugin for web scraping, automation, and Actor development",
+    "longDescription": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify.",
     "developerName": "Apify",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
