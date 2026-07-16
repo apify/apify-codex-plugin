@@ -1,133 +1,155 @@
 # Apify for Codex
 
-Official Apify plugin for Codex - adds the Apify MCP server and five bundled skills for the main Apify workflows: building and deploying Actors, actorizing existing projects, generating Actor output schemas, integrating Apify into existing applications, and running pre-built Apify Actors for data extraction.
+The official [Apify plugin for Codex](https://github.com/apify/apify-codex-plugin) connects Codex to Apify's library of [Actors](https://apify.com/store). It bundles:
+
+- The [Apify MCP server](https://docs.apify.com/platform/integrations/mcp) for searching the Store, running Actors, retrieving datasets, and reading Apify documentation.
+- Five built-in skills for common Apify workflows.
 
 > **Apify** is a platform of thousands of serverless cloud programs called **Actors** for web scraping, browser automation, and data extraction. Learn more at [apify.com](https://apify.com).
 
-## What you get
+This guide covers installation in both the Codex app and Codex CLI.
 
-| Component | Name | Purpose |
-|---|---|---|
-| Plugin manifest | `.codex-plugin/plugin.json` | Declares the Codex plugin package, metadata, bundled skills, and MCP configuration. |
-| MCP server | `apify` (`https://mcp.apify.com/`) | Lets Codex search the Apify Store, fetch Actor details, run Actors, and read the Apify docs. |
-| Skill | `apify-actor-development` | Create, debug, and deploy a brand new Apify Actor from scratch. |
-| Skill | `apify-actorization` | Convert an existing JS/TS, Python, or CLI project into an Apify Actor. |
-| Skill | `apify-generate-output-schema` | Generate `dataset_schema.json` / `output_schema.json` / `key_value_store_schema.json` for an existing Actor. |
-| Skill | `apify-sdk-integration` | Add Apify Actor execution to an existing application using the `apify-client` package. |
-| Skill | `apify-ultimate-scraper` | CLI-driven data extraction workflow for selecting, configuring, and running pre-built Actors across 15+ platforms. |
+## Prerequisites
 
-## Installation
-
-Clone the plugin repo (or copy this folder as-is) and install it with the standard Codex plugin flow from the plugin root directory. Keep the package layout intact so Codex can resolve `.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, and `assets/`.
-
-```bash
-git clone https://github.com/apify/codex-plugin /tmp/apify-codex-plugin
-```
-
-### Prerequisites
-
-- **Codex** with plugin support enabled.
+- [An Apify account](https://console.apify.com/sign-up) - sign up for free if you don't have one.
+- [Codex](https://developers.openai.com/codex/) - install the Codex app or Codex CLI with plugin support enabled.
 - Network access to `https://mcp.apify.com` for MCP-backed workflows.
 
-## First-run setup
+## Install the plugin
 
-This plugin uses **three setup paths** depending on which bundled skill or MCP workflow Codex uses.
+### Codex app
 
-### Path 1 - Using existing Actors through MCP
+1. In Codex, open the left sidebar and select **Plugins**.
+1. On the **Plugins** screen, select the dropdown next to **+** and choose **Add marketplace**.
+1. In the **Add plugin marketplace** dialog, enter the Apify plugin repository in the **Source** field:
 
-Uses **OAuth**. The first time Codex calls a tool that needs auth (for example `run-actor` or `get-dataset-items`), it opens `console.apify.com` in your browser and asks you to sign in. Read-only tools such as `search-actors`, `fetch-actor-details`, `search-apify-docs`, and `fetch-apify-docs` work without auth.
+    ```text
+    apify/apify-codex-plugin
+    ```
 
-### Path 2 - CLI workflows for Actor development, actorization, or scraper runs
+1. Select **Add marketplace**.
+1. On the **Plugins** screen, open the **Personal** tab. The **Apify** plugin appears under **Apify Plugin**.
+1. Select **Add** next to **Apify**.
+1. In the dialog, select **Add to Codex**.
+1. Select **Install Apify** to start the Apify MCP server setup.
 
-These skills expect the local `apify` CLI to be available. Install it first:
+### Codex CLI
+
+1. In the Codex CLI, run the `/plugins` command.
+1. Use the arrow keys to move right to the **Add Marketplace** tab, then press Enter.
+1. Type the Apify plugin repository and press Enter:
+
+    ```text
+    apify/apify-codex-plugin
+    ```
+
+1. Open the **Apify Plugin** tab, select **Apify**, and press Enter to view the plugin details.
+1. Select **Install plugin** and press Enter.
+
+## Authenticate to Apify
+
+The plugin bundles the Apify MCP server. Read-only tools such as searching the Store and fetching Actor details work without signing in. Authentication is required to run Actors and access your account data.
+
+### Codex app
+
+1. After you select **Install Apify**, Codex starts the Apify MCP server setup and opens a browser tab for the Apify OAuth flow.
+1. Review the permissions and select **Allow access**.
+1. Return to Codex. The `apify` MCP server is connected and ready to use.
+
+### Codex CLI
+
+1. The first time Codex calls a tool that requires authentication, such as running an Actor, it opens a browser tab for the Apify OAuth flow.
+1. Review the permissions and select **Allow access**.
+1. Return to the terminal. The `apify` MCP server is connected and ready to use in any new chat.
+
+The connection stays authenticated for future sessions. You can revoke access at any time in [Apify Console > Settings > Integrations](https://console.apify.com/settings/integrations).
+
+### CLI-based skills and SDK integration
+
+The `apify-actor-development`, `apify-actorization`, and `apify-ultimate-scraper` skills use the local Apify CLI. Install and authenticate it before using these workflows:
 
 ```bash
 npm install -g apify-cli
-```
-
-For interactive use, authenticate with:
-
-```bash
 apify login
 ```
 
-In headless or CI environments, export an **`APIFY_TOKEN`** instead; the CLI can read it automatically:
+The `apify-sdk-integration` skill and headless CLI workflows use an `APIFY_TOKEN`. Generate one in [Apify Console](https://console.apify.com/settings/integrations), then export it before starting Codex:
 
 ```bash
 export APIFY_TOKEN="apify_api_xxxxxxxxxxxx"
 ```
 
-Generate a token at [console.apify.com/settings/integrations](https://console.apify.com/settings/integrations). Don't have an account? [Sign up free](https://console.apify.com/sign-up) - no credit card required.
+## Run your first prompt
 
-### Path 3 - SDK integration into an existing application
+In a Codex app or Codex CLI chat, describe what you want in natural language. Because the plugin exposes its MCP tools and skills directly, be explicit about the workflow:
 
-Uses an **`APIFY_TOKEN`** environment variable with the `apify-client` package or the REST API:
+> Use Apify to find a good Actor for scraping Google Maps places. Show me the best option, its input requirements, pricing model, and what kind of dataset output it returns. Do not run the Actor yet.
 
-```bash
-export APIFY_TOKEN="apify_api_xxxxxxxxxxxx"
-```
+Codex searches Apify Store, fetches the top Actor's details through the `apify` MCP server, and summarizes its inputs, pricing, and output without running the Actor.
 
-### Working in headless / SSH environments (no browser)
+## Bundled skills
 
-The MCP OAuth flow needs a browser. If you're running Codex in an environment without a browser, you have these options:
+| Skill | Description |
+| --- | --- |
+| `apify-ultimate-scraper` | CLI-driven extraction using existing Actors for multi-step scraping and lead-generation workflows. |
+| `apify-actor-development` | Full Actor lifecycle - template selection, development, local testing, and deployment with `apify push`. |
+| `apify-actorization` | Converts existing JavaScript, TypeScript, Python, or CLI projects into Apify Actors. |
+| `apify-generate-output-schema` | Generates dataset and key-value store schemas for existing Actors. |
+| `apify-sdk-integration` | Integrates Actor execution into applications using the `apify-client` package. |
 
-1. **Authenticate locally first.** Run a browser-capable Codex session once so the OAuth refresh token is stored, then reconnect remotely.
-2. **Use the CLI-based skills.** `apify-actor-development`, `apify-actorization`, and `apify-ultimate-scraper` can work in headless environments when the `apify` CLI is installed and `APIFY_TOKEN` is exported.
-3. **Use the SDK integration skill.** `apify-sdk-integration` uses `apify-client` and only needs `APIFY_TOKEN`.
+Example prompts that route to specific skills:
 
-## How to use it
+_Ultimate scraper:_
 
-Start a Codex session and describe what you need. This bundle does not include a dedicated routing agent, so it helps to be explicit about the workflow you want: use existing Actors, build an Actor, actorize a project, generate output schemas, or integrate Apify into an app.
+> Find 10 highly rated coffee shops in Seattle with name, address, rating, phone, and website.
 
-```
-find me 5 well-rated coffee shops in Seattle and export to CSV
-build me an Actor that scrapes a sitemap and stores titles
-add Apify to this Next.js app so I can run a scraper from /api/scrape
-generate output schemas for the Actor in this folder
-```
+_Actor development:_
 
-## Components reference
+> Create an Apify Actor that accepts a `startUrl` and `maxPages` input, crawls the site, and stores each page title and URL.
 
-### MCP server
+_SDK integration:_
 
-The `apify` MCP server is configured in `.mcp.json` and exposes:
-
-- `search-actors` - search the Apify Store by keyword (no auth)
-- `fetch-actor-details` - Actor specs, input schema, pricing (no auth)
-- `run-actor` - execute an Actor and return results (OAuth)
-- `get-dataset-items` - retrieve dataset rows from a previous run (OAuth)
-- `search-apify-docs` / `fetch-apify-docs` - Apify documentation lookup
-
-### Bundled scripts
-
-This Codex plugin export does **not** include standalone helper scripts or a separate routing agent. Instead, the bundled skills ship with markdown references that Codex uses while working:
-
-- `skills/apify-actor-development/references/` - Actor config, schemas, logging, standby mode, and README guidance
-- `skills/apify-actorization/references/` - JS/TS, Python, and CLI actorization guides plus schema/output notes
-- `skills/apify-ultimate-scraper/references/` - Actor index, gotchas, and workflow playbooks for common scraping use cases
-
-The executable requirements come from the skills themselves: MCP-backed tasks use `.mcp.json`, CLI workflows rely on the local `apify` CLI, and `apify-sdk-integration` uses the `apify-client` SDK.
+> Add Apify to this project. The Node.js API route should run an Actor and return dataset items as JSON.
 
 ## Troubleshooting
 
-**OAuth browser never opens / hangs.** See the "Working in headless / SSH environments" section above and switch to a CLI- or SDK-based path if needed.
+### The Plugins screen or `/plugins` command does not appear
 
-**`apify` CLI not found.** Install it with `npm install -g apify-cli` before using `apify-actor-development`, `apify-actorization`, or `apify-ultimate-scraper`.
+Plugins require a local Codex installation with plugin support enabled. Install or update Codex, then reopen the **Plugins** screen or run `/plugins` again.
 
-**`APIFY_TOKEN` not found.** Export `APIFY_TOKEN` in your shell before starting Codex when using headless CLI auth or the `apify-sdk-integration` skill.
+### The Apify plugin does not appear
 
-**Codex keeps using the wrong skill.** This bundle exposes the skills directly rather than routing through a single `apify` agent, so describe the goal more explicitly: use existing Actors, build an Actor, actorize a project, generate output schemas, or integrate Apify into an app.
+Confirm that the Apify marketplace was added. In the Codex app, check the **Personal** tab. In the Codex CLI, check the **Apify Plugin** tab. If the plugin still does not appear, re-add the marketplace using `apify/apify-codex-plugin`.
 
-**`apify` vs `apify-client`** - these are two different npm packages. The `apify` package is the SDK for **building** Actors (used inside an Actor's code, on the Apify platform). The `apify-client` package is the API client for **calling** Actors from your own application. The bundled skills use the correct one for each workflow.
+### The browser does not open, or OAuth fails
+
+Copy the OAuth URL shown by Codex and open it manually. In a headless environment such as SSH or a remote container, copy your token from [Apify Console](https://console.apify.com/settings/integrations) and set it before starting Codex:
+
+```bash
+export APIFY_TOKEN=<YOUR_API_TOKEN>
+```
+
+### The `apify` CLI is not found
+
+Install it with `npm install -g apify-cli` before using `apify-actor-development`, `apify-actorization`, or `apify-ultimate-scraper`.
+
+### Codex uses the wrong skill
+
+Describe the workflow more explicitly: use an existing Actor, build an Actor, actorize a project, generate output schemas, or integrate Apify into an application.
+
+## Limitations
+
+- Long-running Actors may exceed the time a single tool call waits for completion. Reduce the scope or split the work across multiple prompts.
+- Each Actor run consumes Apify platform usage from your plan in addition to any Codex usage.
+- Skills that edit project files make local changes. Review them before deploying or committing.
 
 ## Resources
 
-- Apify Console - [console.apify.com](https://console.apify.com)
-- Apify Store - [apify.com/store](https://apify.com/store)
-- Docs (LLM-friendly) - [docs.apify.com/llms.txt](https://docs.apify.com/llms.txt)
-- Docs (full) - [docs.apify.com/llms-full.txt](https://docs.apify.com/llms-full.txt)
-- Source repo - [github.com/apify/codex-plugin](https://github.com/apify/codex-plugin)
-- Issues / feedback - open an issue on the source repo, or email [support@apify.com](mailto:support@apify.com)
+- [Apify plugin for Codex](https://github.com/apify/apify-codex-plugin)
+- [Codex documentation](https://developers.openai.com/codex/)
+- [Apify Store](https://apify.com/store)
+- [Apify Console](https://console.apify.com)
+- [Apify documentation for LLMs](https://docs.apify.com/llms.txt)
 
 ## License
 
