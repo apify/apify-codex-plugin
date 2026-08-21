@@ -5,7 +5,7 @@ The official [Apify plugin for Codex](https://github.com/apify/apify-codex-plugi
 - The [Apify MCP server](https://docs.apify.com/platform/integrations/mcp) for searching the Store, running Actors, retrieving datasets, and reading Apify documentation.
 - Five built-in skills for common Apify workflows.
 
-> **Apify** is a platform of thousands of serverless cloud programs called **Actors** for web scraping, browser automation, and data extraction. Learn more at [apify.com](https://apify.com).
+> **Apify** is the largest marketplace of tools for AI: ready-made **Actors** you can run, or build your own. Find your Actor at [Apify Store](https://apify.com/store).
 
 This guide covers installation in both the Codex app and Codex CLI.
 
