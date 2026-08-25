@@ -1,5 +1,5 @@
 {
   "apify": {
-    "url": "https://mcp.apify.com"
+    "url": "https://mcp.apify.com/?client=codex+plugin"
   }
 }
