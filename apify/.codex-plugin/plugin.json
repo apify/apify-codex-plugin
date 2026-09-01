@@ -1,7 +1,7 @@
 {
   "name": "apify",
   "version": "0.1.0",
-  "description": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify.",
+  "description": "Run ready-made Actors from Apify, the largest marketplace of tools for AI, or build and publish your own.",
   "author": {
     "name": "Apify",
     "url": "https://apify.com"
@@ -14,8 +14,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Apify",
-    "shortDescription": "Apify platform plugin for web scraping, automation, and Actor development",
-    "longDescription": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify.",
+    "shortDescription": "Apify: the largest marketplace of tools for AI.",
+    "longDescription": "Run ready-made Actors from Apify, the largest marketplace of tools for AI, or build and publish your own.",
     "developerName": "Apify",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
