@@ -48,7 +48,7 @@ This guide covers installation in both the Codex app and Codex CLI.
 
 ## Authenticate to Apify
 
-The plugin bundles the Apify MCP server. Read-only tools such as searching the Store and fetching Actor details work without signing in. Authentication is required to run Actors and access your account data.
+The plugin bundles the Apify MCP server. The server requires an authenticated Apify account for every tool, including searching the Store and reading documentation. Codex prompts you to sign in with Apify OAuth when you install the plugin.
 
 ### Codex app
 
@@ -58,7 +58,7 @@ The plugin bundles the Apify MCP server. Read-only tools such as searching the S
 
 ### Codex CLI
 
-1. The first time Codex calls a tool that requires authentication, such as running an Actor, it opens a browser tab for the Apify OAuth flow.
+1. When you install the plugin, or the first time Codex connects to the `apify` MCP server, it opens a browser tab for the Apify OAuth flow.
 1. Review the permissions and select **Allow access**.
 1. Return to the terminal. The `apify` MCP server is connected and ready to use in any new chat.
 
