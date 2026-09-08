@@ -1,6 +1,6 @@
 {
   "name": "apify",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Run ready-made Actors from Apify, the largest marketplace of tools for AI, or build and publish your own.",
   "author": {
     "name": "Apify",
@@ -14,11 +14,16 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Apify",
-    "shortDescription": "Apify: the largest marketplace of tools for AI.",
+    "shortDescription": "Run any Actor from Apify Store",
     "longDescription": "Run ready-made Actors from Apify, the largest marketplace of tools for AI, or build and publish your own.",
     "developerName": "Apify",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Find 10 highly rated coffee shops in Seattle with name, address, rating, phone, and website.",
+      "Scrape the latest 50 posts from a public Instagram profile and summarize the main themes.",
+      "Create an Actor that takes startUrl and maxPages, crawls the site, and stores each page title and URL."
+    ],
     "websiteURL": "https://apify.com",
     "privacyPolicyURL": "https://apify.com/privacy-policy",
     "termsOfServiceURL": "https://apify.com/terms-of-use",
