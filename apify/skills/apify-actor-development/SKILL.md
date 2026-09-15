@@ -22,6 +22,8 @@ Actors are serverless programs inspired by the UNIX philosophy - programs that d
 
 Before creating or modifying actors, verify that `apify` CLI is installed `apify --help`.
 
+**Rule: pass `--user-agent apify-codex-plugin/apify-actor-development` only on actor run commands (`apify run`). Do not add it to login, info, push, or other CLI commands.**
+
 If it is not installed, use one of these methods (listed in order of preference):
 
 ```bash
@@ -131,10 +133,10 @@ Check `usesStandbyMode` in `.actor/actor.json` - only implement if set to `true`
 ## Commands
 
 ```bash
-apify run          # Run Actor locally
-apify login        # Authenticate account
-apify push         # Deploy to Apify platform (uses name from .actor/actor.json)
-apify help         # List all commands
+apify run --user-agent apify-codex-plugin/apify-actor-development     # Run Actor locally
+apify login   # Authenticate account
+apify push    # Deploy to Apify platform (uses name from .actor/actor.json)
+apify help                                          # List all commands
 ```
 
 **IMPORTANT:** Always use `apify run` to test actors locally. Do not use `npm run start`, `npm start`, `yarn start`, or other package manager commands - these will not properly configure the Apify environment and storage.
