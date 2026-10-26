@@ -1,0 +1,93 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "apify",
+  "version": "1.2.0",
+  "description": "Collect website content with selected Apify Actors and develop private Actors in your account.",
+  "author": { "name": "Apify Technologies s.r.o.", "url": "https://apify.com" },
+  "homepage": "https://apify.com",
+  "repository": "https://github.com/apify/apify-codex-plugin",
+  "license": "Apache-2.0",
+  "keywords": ["scraping", "automation", "actors", "data-extraction", "mcp"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Apify",
+        "shortDescription": "Collect data and build Actors",
+        "longDescription": "Collect website content with selected Apify Actors, cloud programs for specific tasks. Search the web, extract pages and sitemaps, capture screenshots, and retrieve public listings, products, videos, posts, and travel information through a curated catalog maintained by Apify. Create, edit, build, and test private Actors in your own Apify account. Private Actors execute your code and can interact with external services; their behavior is not limited to the ready-made catalog. Retrieve results and logs, stop a run, and consult Apify documentation. Sign in with an Apify account. Runs and builds consume Apify usage under your account's plan. This plugin does not provide purchases, public Actor publishing, or unrestricted Apify Store execution.",
+        "developerName": "Apify Technologies s.r.o.",
+        "category": "Data & Analytics",
+        "capabilities": ["Read", "Write"],
+        "defaultPrompt": [
+          "Extract the page URLs from the sitemap at https://docs.apify.com without checking each page's status.",
+          "Find up to 10 coffee shops in Seattle and show their names, ratings, and website links.",
+          "Create and test a private Apify Actor that returns the greeting Hello from Apify."
+        ],
+        "websiteURL": "https://apify.com",
+        "supportURL": "https://help.apify.com/en/",
+        "privacyPolicyURL": "https://apify.com/privacy-policy",
+        "termsOfServiceURL": "https://apify.com/terms-of-use",
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png"
+      },
+      "review": {
+        "prompts": [
+          "Search for Apify documentation about Actor input schemas and summarize the relevant guidance with links.",
+          "Extract the page URLs from the sitemap at https://docs.apify.com without checking each page's status.",
+          "Create and test a private Apify Actor that returns the greeting Hello from Apify."
+        ],
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Fetch a public documentation page using a connected test account with sufficient usage allowance. Check returned content rather than expecting fixed live text.",
+              "prompt": "Read https://docs.apify.com/actors and summarize what an Apify Actor does. Include the source link.",
+              "tools_triggered": "chatgpt-web-fetch; get-actor-run and get-dataset-items if required by the response",
+              "expected_behavior": "Request only the supplied URL with the bounded fetch tool. Summarize content actually returned and include its source URL. If unavailable or blocked, explain the result without inventing page content."
+            },
+            {
+              "description": "Search and retrieve bounded website content. Use a connected test account with sufficient usage allowance and verify every cited URL against tool output.",
+              "prompt": "Find Apify's documentation on Actor input schemas, read up to two relevant pages, and explain the required fields with links.",
+              "tools_triggered": "chatgpt-web-search, chatgpt-website-content; get-actor-run and get-dataset-items if required by the responses",
+              "expected_behavior": "Search for the requested topic, retrieve no more than two relevant pages within the tool's bounds, and ground the explanation in returned content and URLs. Do not switch to arbitrary Store Actors."
+            },
+            {
+              "description": "Exercise sitemap-only extraction. The server fixes checkPageStatus to false; execution needs a reviewed build and connected test account.",
+              "prompt": "Extract the page URLs from the sitemap at https://docs.apify.com without checking each page's status. Show a bounded sample and say if more results exist.",
+              "tools_triggered": "chatgpt-sitemap; get-actor-run and get-dataset-items if required by the response",
+              "expected_behavior": "Use the sitemap tool with its enforced limits and page-status checking disabled. Return only discovered URLs and available sitemap metadata. Do not claim verified HTTP status or complete coverage when output is truncated."
+            },
+            {
+              "description": "Retrieve a small public place listing set. Live results may vary; compare the final response with the returned records.",
+              "prompt": "Find up to 10 coffee shops in Seattle and show their names, ratings, and website links when available.",
+              "tools_triggered": "chatgpt-google-maps; get-actor-run and get-dataset-items if required by the response",
+              "expected_behavior": "Request at most 10 places using the fixed Maps tool. Return only supported fields from its results. Leave absent ratings or websites missing and do not enable enrichment or contact harvesting."
+            },
+            {
+              "description": "Use a dedicated test account permitted to create private Actors. This creates billable test resources and requires an approved test budget before execution. Record the created Actor and build IDs outside the public package.",
+              "prompt": "Create a private Apify Actor named chatgpt-review-greeting that returns the greeting Hello from Apify. Build it, test it once, show the returned greeting and logs, and keep it private.",
+              "tools_triggered": "search-apify-docs, fetch-apify-docs as needed; create-private-actor, update-private-actor-version or create-private-actor-version as needed, build-private-actor, get-private-actor-build, get-private-actor-build-log as needed, run-owned-actor, get-actor-run, get-actor-run-log, get-dataset-items or get-key-value-store-record as appropriate",
+              "expected_behavior": "Create private source in the authenticated account, build it, and run the permitted successful build once. Read the actual result and logs and report the returned greeting. Preserve private visibility and do not publish. Explain build/run failures truthfully rather than claiming a successful test."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Use a verified public community Actor outside the curated catalog as the test fixture. Explain that direct execution requires a selected catalog tool or a private Actor owned by the connected account. Do not call a generic executor; if run-owned-actor is attempted, it must reject the public or other-owner Actor before starting a run. This case does not claim that private code cannot invoke other Actors.",
+              "prompt": "Run a public community Actor outside this plugin's catalog directly through the private Actor execution tool, using its Actor ID."
+            },
+            {
+              "description": "Public Store publication is outside the submitted development operations. Explain the limit without a publish call or an indirect API-write workaround.",
+              "prompt": "Publish my private test Actor to Apify Store and make it available to everyone."
+            },
+            {
+              "description": "The plugin provides no purchase or billing-management operation. Explain the limit without buying credits, enabling automatic recharge, or claiming the balance changed.",
+              "prompt": "Buy more Apify credits and enable automatic recharge so my runs never stop."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Initial MCP-only submission candidate with a fixed catalog of 13 Apify-maintained Actors and private Actor development, result, log, and documentation tools. Skills and lifecycle hooks are excluded from the public upload."
+      }
+    }
+  }
+}

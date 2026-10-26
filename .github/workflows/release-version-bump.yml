@@ -49,9 +49,9 @@ jobs:
       is_prerelease: ${{ steps.validate_version.outputs.is_prerelease }}
     steps:
       - name: Verify running on main in the expected repository
-        if: github.ref != 'refs/heads/main' || github.repository != 'apify/apify-codex-plugin'
+        if: github.ref != 'refs/heads/main' || github.repository_id != '1237525987' || (github.repository != 'apify/apify-codex-plugin' && github.repository != 'apify/apify-chatgpt-plugin')
         run: |
-          echo "::error title=Wrong branch or repository::Releases must run from main in apify/apify-codex-plugin. ref=${GITHUB_REF} repo=${GITHUB_REPOSITORY}"
+          echo "::error title=Wrong branch or repository::Releases require main and the approved Apify plugin repository identity. ref=${GITHUB_REF} repo=${GITHUB_REPOSITORY}"
           exit 1
 
       - name: Validate inputs

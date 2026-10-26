@@ -1,0 +1,17 @@
+{
+  "status": "incomplete-candidate",
+  "reviewCases": "Not run",
+  "gaps": [
+    "Deploy and verify the exact 29-tool contract, including schemas and annotations, through OAuth in the intended host.",
+    "Approve and pin each curated Actor build; review:null deliberately blocks execution until that review is complete.",
+    "Run the five positive and three negative review cases with recorded evidence and an explicitly approved test budget.",
+    "Record, inspect, host, and verify the real demo video; demo_recording_url is intentionally absent.",
+    "Prepare and verify dedicated reviewer access in secure portal fields, outside this repository and ZIP.",
+    "Confirm commerce classification for metered existing credits and any overage or recharge behavior before adding a commerce declaration.",
+    "Verify that the portal imports publication.countries=[] as all portal-supported countries, as explicitly requested by the publisher.",
+    "Have the authorized owner confirm that the linked privacy policy and terms cover this plugin's actual data flows and complete attestations.",
+    "Verify the selected publisher identity, domain, authentication, required scans, and saved metadata in the submission portal.",
+    "Obtain OpenAI's classification of the private programmable runtime and the selected third-party site operations.",
+    "Coordinate the GitHub repository rename with an administrator and update repository metadata after verifying the new canonical name."
+  ]
+}

@@ -1,5 +1,12 @@
 # Apify for Codex
 
+The MCP-only public ChatGPT submission candidate is maintained separately in
+[`submission/`](./submission/README.md). Its ZIP excludes the skills distributed
+below and remains incomplete until deployment and review preparation finish.
+The planned repository rename to `apify-chatgpt-plugin` preserves this existing
+repository and its marketplace identity; installation links below remain valid
+for the current name until an administrator completes the rename.
+
 The official [Apify plugin for Codex](https://github.com/apify/apify-codex-plugin) connects Codex to Apify's library of [Actors](https://apify.com/store). It bundles:
 
 - The [Apify MCP server](https://docs.apify.com/platform/integrations/mcp) for searching the Store, running Actors, retrieving datasets, and reading Apify documentation.
